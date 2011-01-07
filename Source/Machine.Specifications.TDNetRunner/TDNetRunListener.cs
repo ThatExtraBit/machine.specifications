@@ -13,8 +13,9 @@ namespace Machine.Specifications.TDNetRunner
     readonly ResultFormatterFactory resultFormatterFactory;
     TestRunState testRunState = TestRunState.NoTests;
     readonly List<TestResult> testResults = new List<TestResult>();
+      private string _currentContext;
 
-    public TestRunState TestRunState
+      public TestRunState TestRunState
     {
       get { return testRunState; }
     }
@@ -55,11 +56,14 @@ namespace Machine.Specifications.TDNetRunner
     public void OnContextStart(ContextInfo context)
     {
       testListener.WriteLine(context.FullName, Category.Output);
+      _currentContext = context.FullName;
+        
     }
 
     public void OnContextEnd(ContextInfo context)
     {
       testListener.WriteLine("", Category.Output);
+      _currentContext = null;
     }
 
     public void OnSpecificationStart(SpecificationInfo specification)
@@ -70,9 +74,9 @@ namespace Machine.Specifications.TDNetRunner
     {
       var formatter = resultFormatterFactory.GetResultFormatterFor(result);
       testListener.WriteLine(formatter.FormatResult(specification), Category.Output);
-
+        
       TestResult testResult = new TestResult();
-      testResult.Name = specification.Name;
+      testResult.Name = _currentContext + " » " + specification.Name;
       if (result.Passed)
       {
         testResult.State = TestState.Passed;

@@ -1,0 +1,6 @@
+﻿name: machine.specifications
+description: Machine.Specifications is a Context/Specification framework geared towards removing language noise and simplifying tests.
+depends: openwrap anchored content
+depends: tdnet-framework
+build: msbuild; profile=net35; project=source\Machine.Specifications\Machine.Specifications.csproj; project=source\Machine.Specifications.TDNetRunner\Machine.Specifications.TDNetRunner.csproj;
+referenced-assemblies: machine.specifications.dll
